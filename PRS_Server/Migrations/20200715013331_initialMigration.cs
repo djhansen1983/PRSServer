@@ -2,7 +2,7 @@
 
 namespace PRS_Server.Migrations
 {
-    public partial class newMigration : Migration
+    public partial class initialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,7 +50,7 @@ namespace PRS_Server.Migrations
                     RejectionReason = table.Column<string>(maxLength: 80, nullable: true),
                     DeliveryMode = table.Column<string>(maxLength: 30, nullable: false),
                     Status = table.Column<string>(maxLength: 30, nullable: false),
-                    Total = table.Column<decimal>(type: "12,2", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

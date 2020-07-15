@@ -90,7 +90,7 @@ namespace PRS_Server.Migrations
                         .HasMaxLength(30);
 
                     b.Property<decimal>("Total")
-                        .HasColumnType("12,2");
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

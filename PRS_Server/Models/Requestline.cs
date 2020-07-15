@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,6 +19,13 @@ namespace PRS_Server.Models
 
 
         public int ProductsId { get; set; }
+        public virtual Product Product { get; set; }
+
+        [JsonIgnore]
+        public virtual Request Request { get; set; }
+
+
+
 
         public Requestline()
         {

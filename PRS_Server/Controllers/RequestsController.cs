@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -72,6 +73,39 @@ namespace PRS_Server.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("review")]
+        public async Task<IActionResult> ReviewRequest(Request request)
+        {
+            request.Status = (request.Total <= 50) ? "APPROVED" : "REVIEW";
+
+            return await PutRequest(request.Id, request);
+        }
+
+        [HttpPut("approve")]
+        public async Task<IActionResult> ApproveRequest(Request request)
+        {
+            request.Status = "APPROVED";
+
+            return await PutRequest(request.Id, request);
+        }
+
+        [HttpPut("reject")]
+        public async Task<IActionResult> RejectRequest(Request request)
+        {
+            request.Status = "REJECTED";
+
+            return await PutRequest(request.Id, request);
+        }
+
+        [HttpGet("reviewed/{userid}")]
+        public async Task<ActionResult<IEnumerable<Request>>> GetRequestsInReviewNotMine(int userid)
+        {
+            return await _context.Requests
+                .Where(r => r.UserId != userid && r.Status == "REVIEW")
+                .ToListAsync();
+        }
+        
 
         // POST: api/Requests
         // To protect from overposting attacks, enable the specific properties you want to bind to, for

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,14 @@ namespace PRS_Server.Controllers
         {
             _context = context;
         }
+
+        private async Task RefreshRequestline(Requestline requestline)
+        {
+            _context.Entry(requestline).State = EntityState.Detached;
+            await _context.Requestlines.FindAsync(requestline.Id);
+        }
+
+
 
         // GET: api/Requestlines
         [HttpGet]
@@ -70,6 +79,9 @@ namespace PRS_Server.Controllers
                 }
             }
 
+            await RefreshRequestline(requestline);
+            await RecalculateRequestTotal(requestline.RequestId);
+
             return NoContent();
         }
 
@@ -81,6 +93,9 @@ namespace PRS_Server.Controllers
         {
             _context.Requestlines.Add(requestline);
             await _context.SaveChangesAsync();
+
+            await RefreshRequestline(requestline);
+            await RecalculateRequestTotal(requestline.RequestId);
 
             return CreatedAtAction("GetRequestline", new { id = requestline.Id }, requestline);
         }
@@ -99,6 +114,19 @@ namespace PRS_Server.Controllers
             await _context.SaveChangesAsync();
 
             return requestline;
+        }
+
+        private async Task RecalculateRequestTotal(int requestid)
+        {
+            var request = await _context.Requests.FindAsync(requestid);
+            if (request == null) throw new Exception("Cannot find request");
+
+            request.Total = (from r in request.Requestlines
+                             select new
+                             {
+                                 LineTotal = r.Quantity * r.Product.Price
+                             }).Sum(lt => lt.LineTotal);
+            await _context.SaveChangesAsync();
         }
 
         private bool RequestlineExists(int id)

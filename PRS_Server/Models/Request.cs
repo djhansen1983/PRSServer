@@ -30,12 +30,16 @@ namespace PRS_Server.Models
         [Required]
         public string Status { get; set; }
 
-        [Column(TypeName = "12,2")]
-        [Required]
+        [Column(TypeName = "decimal(12,2)")]
         public decimal Total { get; set; }
 
 
         public int UserId { get; set; }
+
+        public virtual User User { get; set; }
+
+        public virtual IEnumerable<Requestline> Requestlines { get; set; }
+
 
         public Request()
         {
