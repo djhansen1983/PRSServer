@@ -1,0 +1,10 @@
+<nav>
+    <ul>
+        <li *ngFor="let m of menus">
+            <div>
+                <a routerLink="{{m.route}}" class="btn btn-outline-danger btn-sm rounded-0" href="#"
+                role="button">{{m.display}}</a>
+            </div>
+        </li>
+    </ul>
+</nav>

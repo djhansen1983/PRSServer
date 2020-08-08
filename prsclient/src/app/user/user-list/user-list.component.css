@@ -1,0 +1,31 @@
+.clickable{
+    color: #DC3545;
+    cursor: pointer;
+}
+a.clickable:hover{
+    color: rgb(255, 0, 242);
+}
+.color{
+    color: #DC3545;
+    cursor: default;
+}
+input{
+    border: #DC3545;
+}
+input[type=text]{
+    background-color: black;
+}
+
+h3{
+    color: #DC3545;
+}
+
+#inline{
+    display: inline-block;
+    vertical-align: bottom;
+}
+::placeholder{
+    color: #DC3545;
+
+}
+

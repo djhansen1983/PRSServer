@@ -1,0 +1,39 @@
+<app-menu></app-menu>
+<div id="component" class="w-100 p-3 rounded-0">
+    <h3>USER LIST</h3>
+    <div id="inline">
+        <a routerLink="/user/create" class="btn btn-outline-danger btn-sm rounded-0" href="#" role="button">NEW
+            USER</a>
+    </div>
+    &nbsp;
+    &nbsp;
+    <div id="inline">
+        <input [(ngModel)]="searchCriteria" type="text" placeholder="SEARCH"
+            class="border border-danger rounded-0 btn-sm">
+    </div>
+    <p></p>
+<table class="table table-sm">
+    <tr>
+        <th><a (click)="sort('id')" class="clickable">ID</a></th>
+        <th><a (click)="sort('username')" class="clickable">USERNAME</a></th>
+        <th><a (click)="sort('password')" class="clickable">PASSWORD</a></th>
+        <th><a (click)="sort('firstname')" class="clickable">FIRST NAME</a></th>
+        <th><a (click)="sort('lastname')" class="clickable">LAST NAME</a></th>
+        <th><a (click)="sort('phone')" class="clickable">PHONE</a></th>
+        <th><a (click)="sort('email')" class="clickable">EMAIL</a></th>
+        <th><a (click)="sort('isReviewer')" class="clickable">REVIEWER?</a></th>
+        <th><a (click)="sort('isAdmin')" class="clickable">ADMIN?</a></th>
+    </tr>
+    <tr *ngFor="let u of user | userSearch:searchCriteria | sort: sortCriteria:sortAsc">
+        <td>{{u.id}}</td>
+        <td>{{u.username}}</td>
+        <td>{{u.password}}</td>
+        <td>{{u.firstname}}</td>
+        <td>{{u.lastname}}</td>
+        <td>{{u.phone}}</td>
+        <td>{{u.email}}</td>
+        <td>{{u.isReviewer}}</td>
+        <td>{{u.isAdmin}}</td>
+    </tr>
+</table>
+</div>
